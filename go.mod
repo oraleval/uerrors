@@ -1,4 +1,4 @@
-module xerrors
+module uerrors
 
 go 1.13
 

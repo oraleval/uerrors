@@ -1,4 +1,4 @@
-package xerrors
+package uerrors
 
 import (
 	"encoding/json"
@@ -55,7 +55,7 @@ func TestJsonString(t *testing.T) {
 	em1 := NewMsg(tErrRead, "read fail")
 	str := em1.JsonString()
 
-	em2 := XErrorMsg{}
+	em2 := ErrorMsg{}
 	err := json.Unmarshal([]byte(str), &em2)
 	assert.NoError(t, err)
 	assert.Equal(t, em1.ErrCode, em2.ErrCode)
@@ -75,7 +75,7 @@ func TestToXerror(t *testing.T) {
 	e1 := NewMsg(tErrWrite, "test")
 	e := fmt.Errorf("aa :%w", e1)
 
-	e2 := ToXErrorMsg(e)
+	e2 := ToErrorMsg(e)
 
 	assert.Equal(t, e1, e2)
 }
@@ -84,14 +84,14 @@ func TestErrorf(t *testing.T) {
 	// 测试两种情况
 
 	var err error = NewMsg(tErrRead, "new msg")
-	// 情况1 error链有XErrorMsg
+	// 情况1 error链有ErrorMsg
 	err1 := Errorf(tErrWrite, "wrap %w", err)
 
-	assert.Equal(t, ToXErrorMsg(err1), err.(*XErrorMsg))
+	assert.Equal(t, ToErrorMsg(err1), err.(*ErrorMsg))
 
-	// 情况2 error链没有XErrorMsg
+	// 情况2 error链没有ErrorMsg
 	err2 := Errorf(tErrWrite, "wrap %w", errors.New("test"))
 
-	var x *XErrorMsg
+	var x *ErrorMsg
 	assert.True(t, errors.As(err2, &x))
 }
