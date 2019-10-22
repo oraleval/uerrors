@@ -1,4 +1,4 @@
-module uerrors
+module github.com/oraleval/uerrors
 
 go 1.13
 
